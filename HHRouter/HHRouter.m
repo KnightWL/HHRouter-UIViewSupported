@@ -289,3 +289,20 @@ static char kAssociatedParamsObjectKey;
 }
 
 @end
+
+#pragma mark - UIView Category
+
+@implementation UIView (HHRouter)
+
+- (void)setParams:(NSDictionary *)paramsDictionary
+{
+    objc_setAssociatedObject(self, &kAssociatedParamsObjectKey, paramsDictionary, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSDictionary *)params
+{
+    return objc_getAssociatedObject(self, &kAssociatedParamsObjectKey);
+}
+
+
+@end
