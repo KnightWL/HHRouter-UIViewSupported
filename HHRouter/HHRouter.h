@@ -22,10 +22,6 @@
 
 #import <Foundation/Foundation.h>
 
-///---------------
-/// @name HHRouter
-///---------------
-
 typedef NS_ENUM (NSInteger, HHRouteType) {
     HHRouteTypeNone = 0,
     HHRouteTypeViewController = 1,
@@ -34,6 +30,10 @@ typedef NS_ENUM (NSInteger, HHRouteType) {
 
 typedef id (^HHRouterBlock)(NSDictionary *params);
 
+
+/**
+ * HHRouter
+ */
 @interface HHRouter : NSObject
 
 + (instancetype)shared;
@@ -54,18 +54,14 @@ typedef id (^HHRouterBlock)(NSDictionary *params);
 
 @end
 
-///--------------------------------
-/// @name UIViewController Category
-///--------------------------------
 
-@interface UIView (HHRouter)
 
-@property (nonatomic, strong) NSDictionary *params;
-
-@end
-
-@interface UIViewController (HHRouter)
-
-@property (nonatomic, strong) NSDictionary *params;
+/**
+ * 由View或者Controller来实现的协议，借此来传递一些初始化参数
+ * 会在matchController/matchView 方法返回对应obj之前，调用[obj HHRouter_setParams:]
+ * 如果一个Controller/View 的初始化不需要额外参数，可以不实现该协议
+ */
+@protocol HHRouterParamDelegate <NSObject>
+- (void)HHRouter_setParams:(NSDictionary *)params;
 
 @end

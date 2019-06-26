@@ -56,8 +56,8 @@
 
     UIViewController *viewController = [[controllerClass alloc] init];
 
-    if ([viewController respondsToSelector:@selector(setParams:)]) {
-        [viewController performSelector:@selector(setParams:)
+    if ([viewController respondsToSelector:@selector(HHRouter_setParams::)]) {
+        [viewController performSelector:@selector(HHRouter_setParams:)
                              withObject:[params copy]];
     }
     return viewController;
@@ -69,8 +69,8 @@
     
     UIView *view = [[viewClass alloc] init];
     
-    if ([view respondsToSelector:@selector(setParams:)]) {
-        [view performSelector:@selector(setParams:)
+    if ([view respondsToSelector:@selector(HHRouter_setParams:)]) {
+        [view performSelector:@selector(HHRouter_setParams:)
                              withObject:[params copy]];
     }
     return view;
@@ -269,40 +269,5 @@
     
     return HHRouteTypeNone;
 }
-
-@end
-
-#pragma mark - UIViewController Category
-
-@implementation UIViewController (HHRouter)
-
-static char kAssociatedParamsObjectKey;
-
-- (void)setParams:(NSDictionary *)paramsDictionary
-{
-    objc_setAssociatedObject(self, &kAssociatedParamsObjectKey, paramsDictionary, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSDictionary *)params
-{
-    return objc_getAssociatedObject(self, &kAssociatedParamsObjectKey);
-}
-
-@end
-
-#pragma mark - UIView Category
-
-@implementation UIView (HHRouter)
-
-- (void)setParams:(NSDictionary *)paramsDictionary
-{
-    objc_setAssociatedObject(self, &kAssociatedParamsObjectKey, paramsDictionary, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSDictionary *)params
-{
-    return objc_getAssociatedObject(self, &kAssociatedParamsObjectKey);
-}
-
 
 @end
