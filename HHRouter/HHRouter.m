@@ -63,6 +63,19 @@
     return viewController;
 }
 
+- (UIView *)matchView:(NSString *)route {
+    NSDictionary *params = [self paramsInRoute:route];
+    Class viewClass = params[@"controller_class"];
+    
+    UIView *view = [[viewClass alloc] init];
+    
+    if ([view respondsToSelector:@selector(setParams:)]) {
+        [view performSelector:@selector(setParams:)
+                             withObject:[params copy]];
+    }
+    return view;
+}
+
 - (UIViewController *)match:(NSString *)route
 {
     return [self matchController:route];
@@ -146,7 +159,7 @@
     
     Class class = subRoutes[@"_"];
     if (class_isMetaClass(object_getClass(class))) {
-        if ([class isSubclassOfClass:[UIViewController class]]) {
+        if ([class isSubclassOfClass:[UIViewController class]] || [class isSubclassOfClass:UIView.class]) {
             params[@"controller_class"] = subRoutes[@"_"];
         } else {
             return nil;
@@ -235,6 +248,11 @@
     NSMutableDictionary *subRoutes = [self subRoutesToRoute:route];
 
     subRoutes[@"_"] = controllerClass;
+}
+
+- (void)map:(NSString *)route toViewClass:(Class)viewClass {
+    NSMutableDictionary *subRoutes = [self subRoutesToRoute:route];
+    subRoutes[@"_"] = viewClass;
 }
 
 - (HHRouteType)canRoute:(NSString *)route

@@ -42,6 +42,10 @@ typedef id (^HHRouterBlock)(NSDictionary *params);
 - (UIViewController *)match:(NSString *)route __attribute__((deprecated));
 - (UIViewController *)matchController:(NSString *)route;
 
+- (void)map:(NSString *)route toViewClass:(Class)viewClass;
+- (UIView *)matchView:(NSString *)route;
+
+
 - (void)map:(NSString *)route toBlock:(HHRouterBlock)block;
 - (HHRouterBlock)matchBlock:(NSString *)route;
 - (id)callBlock:(NSString *)route;
@@ -53,6 +57,12 @@ typedef id (^HHRouterBlock)(NSDictionary *params);
 ///--------------------------------
 /// @name UIViewController Category
 ///--------------------------------
+
+@interface UIView (HHRouter)
+
+@property (nonatomic, strong) NSDictionary *params;
+
+@end
 
 @interface UIViewController (HHRouter)
 
