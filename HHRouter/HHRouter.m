@@ -56,7 +56,7 @@
 
     UIViewController *viewController = [[controllerClass alloc] init];
 
-    if ([viewController respondsToSelector:@selector(HHRouter_setParams::)]) {
+    if ([viewController respondsToSelector:@selector(HHRouter_setParams:)]) {
         [viewController performSelector:@selector(HHRouter_setParams:)
                              withObject:[params copy]];
     }
